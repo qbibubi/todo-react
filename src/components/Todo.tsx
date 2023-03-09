@@ -4,13 +4,16 @@ import { v4 as uuidv4 } from 'uuid';
 import TodoItem from './TodoItem';
 
 export default function Todo() {
-  const [task, setTask] = useState<ITask>({
+  const input = (document.getElementById("todo-input") as HTMLInputElement);
+  const starterTask: ITask = {
       id: uuidv4(),
       body: '',
       date: Date.now(), 
       state: false
-  });
+  }
 
+  // update task
+  const [task, setTask] = useState<ITask>(starterTask);
   const handleChange = (event: any) => {
     setTask({
       id: uuidv4(),
@@ -20,8 +23,13 @@ export default function Todo() {
     });
   }
 
+  // add todo
   const [todos, setTodos] = useState<ITask[]>([]);
-  const addTodo = () => {
+  const addTodo = (event: any) => {
+    if (input === null) {
+      return;
+    }
+
     if (task.body === '' || task.body === null) {
       return;
     }
@@ -34,29 +42,33 @@ export default function Todo() {
     });
 
     setTodos(todos => [...todos, task]);
+    setTask(starterTask);
+    input.value = '';
   }
 
+  // map todos to list
   const todosList = todos.map((todo, index) => {
-    return <TodoItem key={index} content={todo.body}/> 
+    return <TodoItem key={index} content={todo.body} /> 
   })
 
   return (
-    <div className="flex flex-col h-fit w-fit mt-12 p-4 border">
+    <div className="flex flex-col h-fit w-fit mt-12 p-4 border rounded border-zinc-700">
       <div className="flex flex-row p-1">
         <input
           id="todo-input"
-          className="w-fit"
-          type="text" 
+          className="w-fit bg-transparent text-white border rounded border-zinc-700 p-1 focus:outline-none"
+          type="text"
+          size={50}
           maxLength={50}
-          placeholder="Your note here" 
+          placeholder="New note..." 
           onChange={handleChange} />
         <button
-          className="text-white border hover:text-black hover:bg-white"
+          className="text-white border border-zinc-700 p-1 rounded"
           onClick={addTodo}>
           Add
         </button>
       </div>
-      <ul className="list-none">
+      <ul className="flex flex-col list-none">
         {todosList}
       </ul>
     </div>
