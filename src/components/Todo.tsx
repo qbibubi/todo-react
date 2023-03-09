@@ -31,7 +31,6 @@ export default function Todo() {
       state: false
     });
 
-
     setTodos(todos => [...todos, task]);
     console.log(todos);
   }
@@ -41,7 +40,7 @@ export default function Todo() {
   })
 
   return (
-    <div className="flex flex-col h-fit w-fit mt-12">
+    <div className="flex flex-col h-fit w-fit mt-12 p-4 border">
       <TodoAdd addTodo={addTodo} onChange={handleChange} />
       <ul className="list-none">
         {todosList}

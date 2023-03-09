@@ -1,6 +1,6 @@
 export default function TodoAdd(props: any) {
   return (
-    <div className="flex flex-row">
+    <div className="p-1">
       <input 
         className="w-fit"
         type="text" 
