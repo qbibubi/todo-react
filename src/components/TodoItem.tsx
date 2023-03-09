@@ -7,12 +7,12 @@ export default function TodoItem(props: any) {
   }
 
   return (
-    <li className={"flex flex-row text-white mt-1 pt-1 pl-2 justify-left"}>
+    <li className={"flex flex-row mt-1 pt-1 pl-2 justify-left"}>
       <input 
-        className="checked:accent-zinc-700 w-6 h-6 mr-2" 
         type="checkbox" 
+        className="hover:accent-zinc-500 checked:accent-zinc-700 w-6 h-6 mr-2" 
         onChange={handleChange} />
-      <span className={checked ? "text-zinc-500 line-through" : ""}>{props.content}</span>
+      <span className={checked ? "text-zinc-600 line-through" : "text-white"}>{props.content}</span>
     </li>
   ); 
 }
