@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { ITask } from '../interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import TodoItem from './TodoItem';
-import TodoAdd from './TodoAdd';
 
 export default function Todo() {
   const [task, setTask] = useState<ITask>({
@@ -43,7 +42,20 @@ export default function Todo() {
 
   return (
     <div className="flex flex-col h-fit w-fit mt-12 p-4 border">
-      <TodoAdd addTodo={addTodo} onChange={handleChange} />
+      <div className="flex flex-row p-1">
+        <input
+          id="todo-input"
+          className="w-fit"
+          type="text" 
+          maxLength={50}
+          placeholder="Your note here" 
+          onChange={handleChange} />
+        <button
+          className="text-white border hover:text-black hover:bg-white"
+          onClick={addTodo}>
+          Add
+        </button>
+      </div>
       <ul className="list-none">
         {todosList}
       </ul>
