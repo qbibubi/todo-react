@@ -1,8 +1,8 @@
 export default function TodoAdd(props: any) {
   return (
-    <div className="p-1">
-      <input 
-        className="w-fit"
+    <div className="flex flex-row p-1">
+      <input
+        id="todo-input"
         type="text" 
         maxLength={50}
         placeholder="Your note here" 

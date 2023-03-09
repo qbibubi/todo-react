@@ -21,10 +21,13 @@ export default function Todo() {
     });
   }
 
-  const [updatedTask, updateTask] = useState<ITask>(task);
   const [todos, setTodos] = useState<ITask[]>([]);
   const addTodo = () => {
-    updateTask({
+    if (task.body === '' || task.body === null) {
+      return;
+    }
+
+    setTask({
       id: uuidv4(),
       body: task.body,
       date: Date.now(),
@@ -32,7 +35,6 @@ export default function Todo() {
     });
 
     setTodos(todos => [...todos, task]);
-    console.log(todos);
   }
 
   const todosList = todos.map((todo, index) => {
