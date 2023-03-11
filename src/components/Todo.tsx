@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { ITask } from '../interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import TodoItem from './TodoItem';
+import Option from './Option';
 
 export default function Todo() {
   const todoInput = (document.getElementById("todo-input") as HTMLInputElement);
@@ -9,8 +10,8 @@ export default function Todo() {
   const [todo, setTodo] = useState<ITask>({
       id: uuidv4(),
       body: '',
-      date: Date.now(), 
-      state: false
+      createdTimestamp: 0, 
+      checked: false
   });
 
   useEffect(() => {
@@ -22,20 +23,33 @@ export default function Todo() {
   }, [])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTodo({ id: uuidv4(), body: event.target.value, date: Date.now(), state: false })
+    setTodo({...todo, body: event.target.value });
   }
 
   const addTodo = (event: any) => {
     if (todoInput == null || todoInput.value == '' || todoInput.value == null) {
       return;
     }
-    setTodo({ id: todo.id, body: todo.body, date: Date.now(), state: false });
-    setTodos([...todos, todo]);
-    setTodo({ id: uuidv4(), body: '', date: Date.now(), state: false })
-    todoInput.value = '';
-    localStorage.setItem("todo", JSON.stringify(todos))
-  }
 
+    setTodo({
+      ...todo, 
+      id: todo.id, 
+      body: todo.body, 
+      createdTimestamp: Date.now(), 
+    });
+
+    const savedTodos = [...todos, todo];
+    setTodos(savedTodos);
+    localStorage.setItem("todos", JSON.stringify(savedTodos));
+
+    setTodo({ 
+      id: uuidv4(), 
+      body: '', 
+      createdTimestamp: 0, 
+      checked: false 
+    });
+    todoInput.value = '';
+  }
 
   return (
     <div className="flex flex-col h-fit w-fit mt-12 p-4 border rounded border-zinc-700">
@@ -53,6 +67,13 @@ export default function Todo() {
           onClick={addTodo}>
           Add
         </button>
+        <div className="pt-1 text-white">
+          <span className="mr-1">Sort</span>
+          <select className="bg-transparent">
+            <Option value={"by-date"} content={"by date"} />
+            <Option value={"alphabetically"} content={"alphabetically"}/>
+          </select>
+        </div>
       </div>
       <ul className="flex flex-col list-none">
         {todos.map((todo,index) => {
